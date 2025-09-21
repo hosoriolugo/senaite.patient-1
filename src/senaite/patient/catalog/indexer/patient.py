@@ -70,34 +70,30 @@ def patient_mrn(instance):
 
 @indexer(IPatient)
 def patient_fullname(instance):
-    """Index fullname
+    """Index fullname (concatenado con los 4 campos si existen)
     """
-    fullname = instance.getFullname()
-    return fullname
+    return instance.getFullname()
 
 
 @indexer(IPatient)
 def patient_email(instance):
     """Index email
     """
-    email = instance.getEmail()
-    return email
+    return instance.getEmail()
 
 
 @indexer(IPatient)
 def patient_email_report(instance):
-    """Index email
+    """Index email report flag
     """
-    email_report = instance.getEmailReport()
-    return email_report
+    return instance.getEmailReport()
 
 
 @indexer(IPatient)
 def patient_birthdate(instance):
     """Index birthdate
     """
-    birthdate = instance.getBirthdate()
-    return birthdate
+    return instance.getBirthdate()
 
 
 @indexer(IPatient)
@@ -128,12 +124,14 @@ def patient_searchable_text(instance):
 @indexer(IPatient)
 def patient_searchable_mrn(instance):
     """Index for searchable Patient MRN queries
+       Incluye ahora maternal_lastname
     """
     searchable_text_tokens = [
         instance.getMRN(),
         instance.getFirstname(),
         instance.getMiddlename(),
         instance.getLastname(),
+        instance.getMaternalLastname(),
     ]
     searchable_text_tokens = filter(None, searchable_text_tokens)
     return " ".join(searchable_text_tokens)
